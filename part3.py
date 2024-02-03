@@ -1,6 +1,9 @@
+
+
 import numpy as np
 from matplotlib import pyplot as plt
 from scipy.io.wavfile import write
+from scipy.fft import rfft, rfftfreq
 
 SAMPLE_RATE = 44100  # Hertz
 DURATION = 5  # Seconds
@@ -15,14 +18,22 @@ def generate_sine_wave(freq, sample_rate, duration):
 
 _, nice_tone = generate_sine_wave(400, SAMPLE_RATE, DURATION)
 _, noise_tone = generate_sine_wave(4000, SAMPLE_RATE, DURATION)
+_, noise2_tone = generate_sine_wave(300, SAMPLE_RATE, DURATION)
+_, noise3_tone = generate_sine_wave(350, SAMPLE_RATE, DURATION)
+_, noise4_tone = generate_sine_wave(450, SAMPLE_RATE, DURATION)
+_, noise5_tone = generate_sine_wave(500, SAMPLE_RATE, DURATION)
 noise_tone = noise_tone * 0.3
 
-mixed_tone = nice_tone + noise_tone
+mixed_tone = nice_tone + noise_tone + noise2_tone + noise3_tone + noise4_tone + noise5_tone
 # scaling the signal to fit into the target format:
 
 normalized_tone = np.int16((mixed_tone / mixed_tone.max()) * 32767)
 
+# Number of samples in normalized_tone
+N = SAMPLE_RATE * DURATION
 
+yf = rfft(normalized_tone) #fft itself
+xf = rfftfreq(N, 1 / SAMPLE_RATE) #fft freq, size and sample spacing
 
-# Remember SAMPLE_RATE = 44100 Hz is our playback rate
-write("mysinewave.wav", SAMPLE_RATE, normalized_tone)
+plt.plot(xf, np.abs(yf))
+plt.show()

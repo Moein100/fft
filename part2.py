@@ -1,5 +1,9 @@
+
 import numpy as np
 from matplotlib import pyplot as plt
+from scipy.io.wavfile import write
+from scipy.fft import rfft, rfftfreq
+
 
 SAMPLE_RATE = 44100  # Hertz
 DURATION = 5  # Seconds
@@ -23,4 +27,4 @@ normalized_tone = np.int16((mixed_tone / mixed_tone.max()) * 32767)
 
 plt.plot(normalized_tone[:1000])
 plt.show()
-print(normalized_tone)
+# print(normalized_tone)

@@ -31,5 +31,7 @@ N = SAMPLE_RATE * DURATION
 yf = rfft(normalized_tone)
 xf = rfftfreq(N, 1 / SAMPLE_RATE)
 
+yf = yf / np.max(np.abs(yf))
+
 plt.plot(xf, np.abs(yf))
 plt.show()
