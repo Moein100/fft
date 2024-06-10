@@ -1,0 +1,63 @@
+% Parameters
+M = 2; % Mass in kg
+K = 1000; % Spring constant in N/m
+x0 = 2e-3; % Initial displacement in meters
+v0 = 2; % Initial velocity in m/s
+
+% Natural frequency
+omega_n = sqrt(K / M);
+
+% Time vector
+t = linspace(0, 10, 1000); % 10 seconds interval with 1000 points
+
+% Displacement, velocity, and acceleration
+x = x0 * cos(omega_n * t) + (v0 / omega_n) * sin(omega_n * t);
+v = -x0 * omega_n * sin(omega_n * t) + v0 * cos(omega_n * t);
+a = -x0 * omega_n^2 * cos(omega_n * t) - v0 * omega_n * sin(omega_n * t);
+
+% Plotting the results
+figure;
+subplot(3,1,1);
+plot(t, x);
+title('Displacement vs Time');
+xlabel('Time (s)');
+ylabel('Displacement (m)');
+
+subplot(3,1,2);
+plot(t, v);
+title('Velocity vs Time');
+xlabel('Time (s)');
+ylabel('Velocity (m/s)');
+
+subplot(3,1,3);
+plot(t, a);
+title('Acceleration vs Time');
+xlabel('Time (s)');
+ylabel('Acceleration (m/s^2)');
+
+% Effect of varying stiffness and mass
+% Vary stiffness
+K_values = [500, 1000, 1500]; % Different stiffness values
+figure;
+for i = 1:length(K_values)
+    omega_n = sqrt(K_values(i) / M);
+    x = x0 * cos(omega_n * t) + (v0 / omega_n) * sin(omega_n * t);
+    subplot(length(K_values), 1, i);
+    plot(t, x);
+    title(['Displacement vs Time for K = ', num2str(K_values(i)), ' N/m']);
+    xlabel('Time (s)');
+    ylabel('Displacement (m)');
+end
+
+% Vary mass
+M_values = [1, 2, 3]; % Different mass values
+figure;
+for i = 1:length(M_values)
+    omega_n = sqrt(K / M_values(i));
+    x = x0 * cos(omega_n * t) + (v0 / omega_n) * sin(omega_n * t);
+    subplot(length(M_values), 1, i);
+    plot(t, x);
+    title(['Displacement vs Time for M = ', num2str(M_values(i)), ' kg']);
+    xlabel('Time (s)');
+    ylabel('Displacement (m)');
+end
